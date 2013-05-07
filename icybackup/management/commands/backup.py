@@ -33,11 +33,12 @@ class Command(BaseCommand):
 		glacier_vault = options.get('glacier')
 		output_to_stdout = options.get('stdout')
 		output_file_temporary = False
+		dir_prefix = getattr(settings,'ICYBACKUP_TEMP_PATH','tmp')
 
 		# glacier backups go to a temporary file
 		if glacier_vault is not None or output_to_stdout:
 			output_file_temporary = True
-			output_file_obj = NamedTemporaryFile(delete=False)
+			output_file_obj = NamedTemporaryFile(delete=False,prefix=dir_prefix)
 			output_file_obj.close() # we'll open it later
 			output_file = output_file_obj.name
 
